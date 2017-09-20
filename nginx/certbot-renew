@@ -1,0 +1,6 @@
+#!/bin/bash
+
+docker run --rm --name letsencrypt \  
+    -v ${PWD}/ssl/letsencrypt:/etc/letsencrypt \
+    certbot/certbot:latest \
+    renew --quiet

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# usage manuel
+# cerbot-create example.org
+
+set -ex
+
+HOST=$1
+
+docker run --rm \
+  -p 443:443 \
+  -p 80:80 \
+  -v ${PWD}/ssl/letsencrypt:/etc/letsencrypt \
+  certbot/certbot certonly -n \
+  -m "joe.doe@gmail.com" \
+  -d $HOST \
+  --standalone --agree-tos

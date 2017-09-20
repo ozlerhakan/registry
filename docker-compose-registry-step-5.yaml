@@ -1,0 +1,22 @@
+version: '3.2'
+
+services:
+  registry:
+    restart: always
+    image: registry:2
+    environment:
+      REGISTRY_HTTP_TLS_CERTIFICATE: /certs/live/example.org/fullchain.pem
+      REGISTRY_HTTP_TLS_KEY: /certs/live/example.org/privkey.pem
+    volumes:
+      - type: bind
+        source: ./datastore/third-db-path
+        target: /var/lib/registry
+      - type: bind
+        source: ./nginx/ssl/letsencrypt
+        target: /certs
+    ports:
+      - target: 5000
+        published: 443
+        protocol: tcp
+        mode: host
+

@@ -1,0 +1,27 @@
+# add a nginx reverse proxy.
+# it  will forward all traffic on port 80 for the /v2/ to the registry listining on port 5000 
+
+version: '3.2'
+
+services:
+  nginx:
+    build:
+      context: nginx/step3/
+      dockerfile: Dockerfile
+    ports:
+     - target: 80
+       published: 80
+       protocol: tcp
+       mode: host
+    restart: "on-failure:5"
+    depends_on: # not compatible in swarm mode
+     - registry  
+  registry:
+    restart: always
+    image: registry:2
+    environment:
+       REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+    volumes:
+     - type: bind
+       source: ./datastore/first-db-path
+       target: /var/lib/registry

@@ -1,0 +1,10 @@
+version: '3.2'
+
+services:
+   nginx:
+     build:
+       context: ./nginx/step9/
+   registryui: # readonly registry view
+    image: klausmeyer/docker-registry-browser
+    environment:
+      - DOCKER_REGISTRY_URL=http://registry:5000 # registry name

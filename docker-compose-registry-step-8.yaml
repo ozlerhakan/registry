@@ -1,0 +1,35 @@
+version: '3.2'
+
+services:
+  nginx:
+    build:
+      context: nginx/step8/
+    volumes:
+      - type: bind
+        source: ./nginx/ssl/letsencrypt
+        target: /etc/letsencrypt
+      - type: bind
+        source: ./nginx/auth/
+        target: /auth/
+    ports:
+     - target: 443
+       published: 443
+       protocol: tcp
+       mode: host
+     - target: 80
+       published: 80
+       protocol: tcp
+       mode: host
+    restart: "on-failure:5"
+  registry:
+    restart: always
+    image: registry:2
+    environment:
+      REGISTRY_STORAGE_DELETE_ENABLED: 'true'
+      REGISTRY_STORAGE: s3
+      REGISTRY_STORAGE_S3_ACCESSKEY: WASEDRFTGHJK
+      REGISTRY_STORAGE_S3_SECRETKEY: asdasdasajna/asjidjanjefawja
+      REGISTRY_STORAGE_S3_REGION: us-west-2
+      REGISTRY_STORAGE_S3_BUCKET: registry-event
+      REGISTRY_HEALTH_STORAGEDRIVER_ENABLED: 'false'
+ 

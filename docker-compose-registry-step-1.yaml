@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+   registry:
+      restart: always
+      image: registry:2
+      ports:
+       - 5000:5000 # insecure centralize
+      volumes:
+       - type: bind
+         source: ./datastore/first-db-path
+         target: /var/lib/registry
